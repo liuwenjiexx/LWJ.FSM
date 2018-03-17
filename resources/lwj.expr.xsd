@@ -1,0 +1,568 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="urn:schema-lwj:expression"
+           xmlns="urn:schema-lwj:expression"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           version="1.0" elementFormDefault="qualified">
+
+  <!-- value type -->
+
+  <xs:element name="type" type="type"  substitutionGroup="expr">
+  </xs:element>
+  <xs:element name="int32" type="xs:int" substitutionGroup="expr"/>
+  <xs:element name="int64" type="xs:long"  substitutionGroup="expr"/>
+  <xs:element name="float32" type="xs:float"  substitutionGroup="expr"/>
+  <xs:element name="float64" type="xs:double"  substitutionGroup="expr"/>
+  <xs:element name="bool"  substitutionGroup="expr">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="true"/>
+        <xs:enumeration value="false"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="string" type="xs:string" substitutionGroup="expr"/>
+  <xs:element name="datetime" type="xs:dateTime" substitutionGroup="expr"/>
+  <xs:element name="true"  substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(true)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="false" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(false)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element  name="null" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(null)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!--<xs:element name="constant"  substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(int32, float32, bool ...) constant value</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type" type="type"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>-->
+
+  <xs:simpleType name="type">
+    <xs:annotation>
+      <xs:documentation>
+        class type (className, assemblyName)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:union memberTypes="valueType xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="valueType" >
+    <xs:restriction base="xs:string" >
+      <xs:enumeration value="int32"/>
+      <xs:enumeration value="int64"/>
+      <xs:enumeration value="float32"/>
+      <xs:enumeration value="float64"/>
+      <xs:enumeration value="bool"/>
+      <xs:enumeration value="string"/>
+      <xs:enumeration value="datetime"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:element name="expr" abstract="true"/>
+
+
+  <xs:group name="exprGroup">
+    <xs:choice>
+      <xs:element ref="expr" />
+      <xs:any namespace="##other"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:element name="accessable" substitutionGroup="expr" abstract="true">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        accessable
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:group name="accessableGroup">
+    <xs:choice>
+      <xs:element ref="accessable" />
+      <xs:any namespace="##other"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:complexType name="exprType">
+    <xs:sequence>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="exprContainerType">
+    <xs:sequence>
+      <xs:group ref="exprGroup"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <xs:complexType name="unaryExprType" >
+    <xs:complexContent>
+      <xs:extension base="exprType">
+        <xs:group ref="exprGroup"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="accessableUnaryExprType" >
+    <xs:complexContent>
+      <xs:extension base="exprType">
+        <xs:sequence>
+          <xs:group ref="accessableGroup"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+
+  <xs:complexType name="binaryExprType" >
+    <xs:complexContent>
+      <xs:extension base="exprType">
+        <xs:sequence>
+          <xs:group ref="exprGroup"/>
+          <xs:group ref="exprGroup"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="accessableBinaryExprType" >
+    <xs:complexContent>
+      <xs:extension base="exprType">
+        <xs:sequence>
+          <xs:group ref="accessableGroup"/>
+          <xs:group ref="exprGroup"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- unary expression-->
+
+  <xs:element name="negate" type="unaryExprType" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(-a)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="preIncrement" type="accessableUnaryExprType"  substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a++)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="postIncrement" type="accessableUnaryExprType" substitutionGroup="expr" >
+    <xs:annotation>
+      <xs:documentation>(++a)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="preDecrement" type="accessableUnaryExprType"  substitutionGroup="expr" >
+    <xs:annotation>
+      <xs:documentation>(a--)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="postDecrement" type="accessableUnaryExprType"  substitutionGroup="expr" >
+    <xs:annotation>
+      <xs:documentation>(--a)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+
+  <!-- binary expression -->
+
+  <xs:element name="add" type="binaryExprType"  substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a + b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="subtract" type="binaryExprType" substitutionGroup="expr" >
+    <xs:annotation>
+      <xs:documentation>(a - b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="multiply" type="binaryExprType" substitutionGroup="expr" >
+    <xs:annotation>
+      <xs:documentation>(a * b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="divide" type="binaryExprType"  substitutionGroup="expr" >
+    <xs:annotation>
+      <xs:documentation>(a / b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="modulo" type="binaryExprType"  substitutionGroup="expr" >
+    <xs:annotation>
+      <xs:documentation>(a %= b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!--assign expression-->
+
+  <xs:element name="assign" type="accessableBinaryExprType"  substitutionGroup="expr" >
+    <xs:annotation>
+      <xs:documentation>(a = b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="addAssign" type="accessableBinaryExprType"  substitutionGroup="expr" >
+    <xs:annotation>
+      <xs:documentation>(a += b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="subtractAssign" type="accessableBinaryExprType"  substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a -= b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="multiplyAssign" type="accessableBinaryExprType"  substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a *= b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="divideAssign" type="accessableBinaryExprType"  substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a /= b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="moduloAssign" type="accessableBinaryExprType"  substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a %= b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+
+  <!--compare expression-->
+
+  <xs:element name="equal" type="binaryExprType" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a == b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="notEqual" type="binaryExprType" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a != b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="lessThan" type="binaryExprType" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a &lt; b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="lessThanOrEqual" type="binaryExprType" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a &lt;= b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="greaterThan" type="binaryExprType" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a &gt;= b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="greaterThanOrEqual" type="binaryExprType" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a &gt;= b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+
+  <!-- logic -->
+
+  <xs:element name="and" type="binaryExprType" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a &amp;&amp; b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="or" type="binaryExprType" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(a || b)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="not" type="unaryExprType" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>(!a)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+
+  <!-- variable expression-->
+
+  <xs:element name="var" substitutionGroup="accessable">
+    <xs:annotation>
+      <xs:documentation>variable</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:annotation>
+            <xs:documentation>variable name</xs:documentation>
+          </xs:annotation>
+          <xs:attribute name="type" type="type">
+            <xs:annotation>
+              <xs:documentation>variable type</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="vars">
+    <xs:annotation>
+      <xs:documentation>define variables</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="var" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!--func expression-->
+  <xs:element name="func" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>
+        (function-vars-body)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="vars" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>arguments</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:group ref="exprGroup">
+          <xs:annotation>
+            <xs:documentation>body</xs:documentation>
+          </xs:annotation>
+        </xs:group>
+      </xs:sequence>
+      <xs:attribute name="name">
+        <xs:annotation>
+          <xs:documentation>function name</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="returnType" type="type">
+        <xs:annotation>
+          <xs:documentation>return type</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+
+  </xs:element>
+
+
+  <!-- call expression-->
+  <xs:element name="call"  substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>
+        (call-function-arguments)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType >
+      <xs:sequence>
+        <xs:group ref="exprGroup">
+          <xs:annotation>
+            <xs:documentation>instance</xs:documentation>
+          </xs:annotation>
+        </xs:group>
+        <xs:group ref="exprGroup" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>arguments</xs:documentation>
+          </xs:annotation>
+        </xs:group>
+      </xs:sequence>
+      <xs:attribute name="method" />
+      <xs:attribute name="type" />
+      <xs:attribute name="argTypes" />
+    </xs:complexType>
+  </xs:element>
+
+
+  <!-- member expression-->
+
+  <xs:complexType name="memberType">
+    <xs:choice>
+      <xs:element ref="type"/>
+      <xs:group ref="exprGroup">
+        <xs:annotation>
+          <xs:documentation>
+            instance
+          </xs:documentation>
+        </xs:annotation>
+      </xs:group>
+    </xs:choice>
+    <xs:attribute name="name"/>
+  </xs:complexType>
+
+  <xs:element name="member" type="memberType" substitutionGroup="accessable">
+    <xs:annotation>
+      <xs:documentation>(object.propertyOrField)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="property" type="memberType"  substitutionGroup="accessable">
+    <xs:annotation>
+      <xs:documentation>(object.property)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="field" type="memberType"  substitutionGroup="accessable">
+    <xs:annotation>
+      <xs:documentation>(object.field)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="return" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>
+        (return [value])
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:group ref="exprGroup"/>
+    </xs:complexType>
+  </xs:element>
+
+
+  <xs:element name="break" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>loop break</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="continue" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>loop continue</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- block expression -->
+
+  <xs:element name="block" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation></xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="vars" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="expr" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!--if expression-->
+
+  <xs:complexType name="if">
+    <xs:complexContent>
+      <xs:extension base="exprType">
+        <xs:sequence>
+          <xs:group ref="exprGroup">
+            <xs:annotation>
+              <xs:documentation>bool test</xs:documentation>
+            </xs:annotation>
+          </xs:group>
+          <xs:group ref="exprGroup" minOccurs="0"/>
+          <xs:element name="elseIf" type="if" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="else" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:group ref="exprGroup" minOccurs="0"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:element name="if" type="if"  substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>if-elseIf-else</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+
+  <!--loop expression-->
+
+  <xs:element name="loop" substitutionGroup="expr">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="exprGroup">
+          <xs:annotation>
+            <xs:documentation>
+              body
+            </xs:documentation>
+          </xs:annotation>
+        </xs:group>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!--switch expression-->
+  <!--<xs:element name="test"  type="expr" substitutionGroup="expr" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        bool expression
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>-->
+
+  <xs:element name="switch" substitutionGroup="expr">
+    <xs:annotation>
+      <xs:documentation>
+        (switch-value-case-test-body-default)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="exprGroup">
+          <xs:annotation>
+            <xs:documentation>
+              test value
+            </xs:documentation>
+          </xs:annotation>
+        </xs:group>
+        <xs:element name="case" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:group ref="exprGroup" minOccurs="2" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>
+                    case test
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:group>
+              <!--<xs:element ref="expr" >
+                <xs:annotation>
+                  <xs:documentation>
+                    case body
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>-->
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="default" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:group ref="exprGroup"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<fsm  xmlns="urn:schema-lwj:fsm"
+     xmlns:x="urn:schema-lwj:expression"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:schema-lwj:fsm ../../../../resources/lwj.fsm.xsd
+      urn:schema-lwj:expression ../../../../resources/lwj.expr.xsd"
+    initial="init">
+  <params>
+    <param name="n" type="int32"/>
+    <param name="result" type="int32"/>
+    <param name="tmp" type="int32"/>
+    <param name="counter" type="int32"/>
+  </params>
+  <state name="init">
+    <transition event="start" target="add">
+      <assign name="tmp" value="1"/>
+      <assign name="counter" value="0"/>
+      <expr>
+        <x:assign>
+          <x:var>tmp</x:var>
+          <x:var>n</x:var>
+        </x:assign>
+        <x:assign>
+          <x:var>counter</x:var>
+          <x:int32>0</x:int32>
+        </x:assign>
+      </expr>
+    </transition>
+  </state>
+  <state name="add">
+    <params>
+      <param name="result_before" type="int32">
+        <x:var>result</x:var>
+      </param>
+    </params>
+    <transition target="init" >
+      <cond>
+        <x:lessThanOrEqual>
+          <x:var>tmp</x:var>
+          <x:int32>1</x:int32>
+        </x:lessThanOrEqual>
+      </cond>
+    </transition>
+    <transition target="decrement" />
+    <onEntry>
+      <expr>
+        <x:addAssign>
+          <x:var>result</x:var>
+          <x:var>tmp</x:var>
+        </x:addAssign>
+        <x:postIncrement>
+          <x:var>counter</x:var>
+        </x:postIncrement>
+      </expr>
+
+      <log format="{3}, add n={2}, {1} + {2} = {0}">
+        <x:var>result</x:var>
+        <x:var>result_before</x:var>
+        <x:var>tmp</x:var>
+        <x:var>counter</x:var>
+      </log>
+    </onEntry>
+  </state>
+  <state name="decrement">
+    <transition target="add" />
+    <onEntry>
+      <expr>
+        <x:postDecrement>
+          <x:var>tmp</x:var>
+        </x:postDecrement>
+      </expr>
+    </onEntry>
+  </state>
+</fsm>

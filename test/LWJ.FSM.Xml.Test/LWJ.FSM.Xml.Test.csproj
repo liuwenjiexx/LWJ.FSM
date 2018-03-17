@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\src\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\..\src\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" />  
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B616A66C-6341-4535-AC95-B73080125164}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LWJ.FSM.Xml.Test</RootNamespace>
+    <AssemblyName>LWJ.FSM.Xml.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
+      <HintPath>..\..\src\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions">
+      <HintPath>..\..\src\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionTest.cs" />
+    <Compile Include="BaseTest.cs" />
+    <Compile Include="ParallelTest.cs" />
+    <Compile Include="utils\ConsoleLog.cs" />
+    <Compile Include="Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="utils\LogMessageTrace.cs" />
+    <Compile Include="SumTest.cs" />
+    <Compile Include="utils\TestUtils.cs" />
+    <Compile Include="TimeWatchTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LWJ.FSM\LWJ.FSM.csproj">
+      <Project>{ab6db19c-271a-4dde-87c1-8f2243fdd1e1}</Project>
+      <Name>LWJ.FSM</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\initial.xml" />
+    <EmbeddedResource Include="xml\demo\sum.xml" />
+    <EmbeddedResource Include="xml\demo\TimeWatch.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\transition_target.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\transition_event.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\transition_event_cond.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\params.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\transition_cond.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\transition_trace.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\transition_trace2.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\actions\log.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\entry.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\actions\raise.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\actions\cancel.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\actions\if.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\actions\foreach.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\actions\custom.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\actions\assign.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\entry_trace.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\transition_event_back.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\entry_reset.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\actions\raise_data.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xml\parallel.xml" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>此项目引用这台计算机上缺少的 NuGet 程序包。使用 NuGet 程序包还原可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>    
+    <Error Condition="!Exists('..\..\src\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\src\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props'))" />
+    <Error Condition="!Exists('..\..\src\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\src\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets'))" />
+  </Target>  
+  <Import Project="..\..\src\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\..\src\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" />
+</Project>

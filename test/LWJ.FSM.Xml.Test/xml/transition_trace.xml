@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<fsm xmlns="urn:schema-lwj:fsm"
+     xmlns:x="urn:schema-lwj:expression"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:schema-lwj:fsm ../../../resources/lwj.fsm.xsd
+      urn:schema-lwj:expression ../../../resources/lwj.expr.xsd"
+    name="root" initial="s1" >
+  <state name="s1">
+    
+    <transition target="s2">
+      <log msg="s1.transition" />      
+    </transition>
+    <onEntry>
+      <log msg="s1.onEntry"/>
+    </onEntry>
+    <onExit>
+      <log msg="s1.onExit"/>
+    </onExit> 
+  </state>
+  <state name="s2">
+    <transition target="s3">
+      <log msg="s2.transition"/>
+    </transition>
+    <onEntry>
+      <log msg="s2.onEntry"/>
+    </onEntry>
+    <onExit>
+      <log msg="s2.onExit"/>
+    </onExit>
+  </state>
+  <state name="s3">
+    <onEntry>
+      <log msg="s3.onEntry"/>
+    </onEntry>
+  </state>
+</fsm>

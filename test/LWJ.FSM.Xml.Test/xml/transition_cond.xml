@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<fsm xmlns="urn:schema-lwj:fsm"
+     xmlns:x="urn:schema-lwj:expression"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:schema-lwj:fsm ../../../resources/lwj.fsm.xsd
+        urn:schema-lwj:expression ../../../resources/lwj.expr.xsd"
+   initial="s1">
+  <params>
+    <param type="bool" name="a" value="false"/>
+  </params>
+  <state name="s1">
+    <transition target="s2" >
+      <cond>
+         <x:var>a</x:var>
+      </cond>
+    </transition>
+  </state>
+  <state name="s2"></state>
+</fsm>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<fsm  xmlns="urn:schema-lwj:fsm"
+     xmlns:x="urn:schema-lwj:expression"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:schema-lwj:fsm ../../../../resources/lwj.fsm.xsd
+      urn:schema-lwj:expression ../../../../resources/lwj.expr.xsd"
+    name="计时器" initial="reset">
+  <params>
+    <param name="time" type="float32"/>
+  </params>
+  <state name="reset">
+    <transition  target="running"  event="watch.start" />
+    <onEntry>
+      <assign name="time" value="0"/>
+    </onEntry>
+  </state>
+  <state name="running">
+    <transition  target="stoped"  event="watch.stop" />
+    <transition  target="paused"  event="watch.pause" />
+    <onEntry>
+      <log msg="started"/>
+    </onEntry>
+    <expr>
+      <x:addAssign>
+        <x:var>time</x:var>
+        <x:member name="DeltaTime">
+          <x:var>$time</x:var>
+        </x:member>
+      </x:addAssign>
+    </expr>
+    <log format="time: {0}, deltaTime: {1}">
+      <x:var>time</x:var>
+      <x:member name="DeltaTime">
+        <x:var>$time</x:var>
+      </x:member>
+    </log>
+  </state>
+  <state name="paused">
+    <transition  target="running"  event="watch.start" />
+    <transition  target="stoped"  event="watch.stop" />
+    <onEntry>
+      <log msg="paused" />
+    </onEntry>
+  </state>
+  <state name="stoped">
+    <transition  target="reset"  event="watch.reset" />
+    <onEntry>
+      <log msg="stoped" />
+    </onEntry>
+  </state>
+</fsm>

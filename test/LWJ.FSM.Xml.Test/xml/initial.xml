@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<fsm xmlns="urn:schema-lwj:fsm" 
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:schemaLocation="urn:schema-lwj:fsm ../../../resources/lwj.fsm.xsd"
+     initial="s1" >
+   
+  <state name="s1">
+    
+  </state>   
+  
+</fsm>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<fsm xmlns="urn:schema-lwj:fsm"
+     xmlns:x="urn:schema-lwj:expression"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:schema-lwj:fsm ../../../../resources/lwj.fsm.xsd
+         urn:schema-lwj:expression ../../../../resources/lwj.expr.xsd"
+     initial="s1">
+  <onEntry>
+    <log msg="root.msg"/>
+    <log type="string" msg="root.type.string"/>
+    <log type="format" format="{0}.format" msg="root"/>
+  </onEntry>
+  <state name="s1">
+    <onEntry>
+      <log>
+        <x:string>s1.onEntry</x:string>
+      </log>
+      <log type="expr" msg="ignore">
+        <x:string>s1.type.expr</x:string>
+      </log>
+      <log type="format" format="{0}+{1}={2}" msg="ignore">
+        <x:int32>1</x:int32>
+        <x:string>2</x:string>
+        <x:string>3</x:string>
+      </log>
+    </onEntry>
+  </state>
+</fsm>

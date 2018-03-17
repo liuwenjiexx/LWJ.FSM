@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AB6DB19C-271A-4DDE-87C1-8F2243FDD1E1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LWJ.FSM</RootNamespace>
+    <AssemblyName>LWJ.FSM</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Build\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>..\..\..\Build\Debug\LWJ.FSM.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LWJ.Expressions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Build\Debug\LWJ.Expressions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EventArgs\ExitEventArgs.cs" />
+    <Compile Include="EventArgs\EntryEventArgs.cs" />
+    <Compile Include="Exceptions\FSMStateException.cs" />
+    <Compile Include="Exceptions\FSMParameterException.cs" />
+    <Compile Include="FSMContext.cs" />
+    <Compile Include="FSMContextAdapter.cs" />
+    <Compile Include="IFSMContext.cs" />
+    <Compile Include="IFSMLogger.cs" />
+    <Compile Include="FSMExecutionContext.cs" />
+    <Compile Include="Extensions\InternalExtensions.cs" />
+    <Compile Include="FSMachine.cs" />
+    <Compile Include="Exceptions\FSMException.cs" />
+    <Compile Include="FSMEvent.cs" />
+    <Compile Include="FSMState.cs" />
+    <Compile Include="Model\Actions\Action.cs" />
+    <Compile Include="Model\Actions\ActionsContainer.cs" />
+    <Compile Include="Model\Actions\AssignAction.cs" />
+    <Compile Include="Model\Actions\CancelAcion.cs" />
+    <Compile Include="Model\Actions\ExpressionAction.cs" />
+    <Compile Include="Model\Actions\ForeachAcion.cs" />
+    <Compile Include="Model\Actions\IfAcion.cs" />
+    <Compile Include="Model\Events\OnUpdate.cs" />
+    <Compile Include="Model\Events\OnInitial.cs" />
+    <Compile Include="Model\Actions\LogAcion.cs" />
+    <Compile Include="Model\Events\OnEntry.cs" />
+    <Compile Include="Model\Events\OnExit.cs" />
+    <Compile Include="Model\Executable.cs" />
+    <Compile Include="Model\Parameter.cs" />
+    <Compile Include="Model\Actions\RaiseAction.cs" />
+    <Compile Include="Model\States\EntryState.cs" />
+    <Compile Include="Model\States\ExitState.cs" />
+    <Compile Include="Model\States\TransitionalTarget.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\States\EnterableState.cs" />
+    <Compile Include="Model\States\FinalState.cs" />
+    <Compile Include="Model\States\ParallelState.cs" />
+    <Compile Include="Model\States\State.cs" />
+    <Compile Include="Model\States\TransitionalState.cs" />
+    <Compile Include="Model\Transition.cs" />
+    <Compile Include="Model\Xml\Read\Exceptions\AttributeReadException.cs" />
+    <Compile Include="Model\Xml\Read\Exceptions\InvalidConvertException.cs" />
+    <Compile Include="Model\Xml\Read\Exceptions\FSMReadException.cs" />
+    <Compile Include="Model\Xml\Read\FSMXmlReader.cs" />
+    <Compile Include="Model\Xml\Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="EventArgs\TransitionEventArgs.cs" />
+    <Compile Include="FSMTime.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Model\Xml\Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

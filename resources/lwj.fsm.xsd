@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="urn:schema-lwj:fsm"
+           xmlns="urn:schema-lwj:fsm"
+           xmlns:mtns="urn:schema-lwj:fsm"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+
+  <xs:element name="fsm"  >
+    <xs:annotation>
+      <xs:documentation>
+        Finite State Machine(FSM), fsm root node
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="transitionalStateType">
+          <xs:attribute name="name"   />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+
+    <xs:unique name="rootStateNames">
+      <xs:selector xpath="mtns:state|mtns:parallel|mtns:final"/>
+      <xs:field xpath="@name"/>
+    </xs:unique>
+  </xs:element>
+
+
+  <!-- state -->
+
+  <xs:element name="transitionalTarget"  abstract="true">
+
+  </xs:element>
+
+  <xs:element name="enterableState"   abstract="true" substitutionGroup="transitionalTarget" />
+
+  <xs:element name="transitionalState"  abstract="true"  substitutionGroup="enterableState">
+  </xs:element>
+
+  <xs:complexType name="transitionalTargetType">
+    <xs:sequence>
+      <xs:element ref="params" minOccurs="0"/>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="onEntry"/>
+        <xs:element ref="onExit"/>
+        <xs:group ref="actionsGroup"/>
+      </xs:choice>
+    </xs:sequence>
+
+  </xs:complexType>
+
+  <xs:complexType name="enterableStateType">
+    <xs:sequence>
+      <xs:element ref="params" minOccurs="0"/>
+      <xs:element ref="entry" minOccurs="0" maxOccurs="1" />
+      <xs:element ref="exit" minOccurs="0" maxOccurs="1"/>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="enterableState"/>
+        <xs:element ref="onEntry"/>
+        <xs:element ref="onExit"/>
+        <xs:group ref="actionsGroup"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="name"  use="required" >
+      <xs:annotation>
+        <xs:documentation>
+          state name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="transitionalStateType">
+
+    <xs:sequence>
+      <xs:element ref="params" minOccurs="0"/>
+      <xs:element ref="transition" minOccurs="0" maxOccurs="unbounded"/>
+      <!--<xs:element ref="onInitial" minOccurs="0" maxOccurs="1"/>-->
+      <xs:element ref="entry" minOccurs="0" maxOccurs="1" />
+      <xs:element ref="exit" minOccurs="0" maxOccurs="1"/>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="enterableState"/>
+        <xs:element ref="onEntry"/>
+        <xs:element ref="onExit"/>
+        <xs:group ref="actionsGroup"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="name"  use="required" >
+      <xs:annotation>
+        <xs:documentation>
+          state name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="initial" type="state_id_type" />
+
+  </xs:complexType>
+
+
+  <xs:simpleType name="state_id_type">
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:complexType name="stateType">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--state-->
+
+  <xs:element name="state"   substitutionGroup="transitionalState">
+    <xs:annotation>
+      <xs:documentation>
+        state
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="transitionalStateType">
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:unique name="stateNames">
+      <xs:selector xpath="mtns:state|mtns:parallel|mtns:final"/>
+      <xs:field xpath="@name"/>
+    </xs:unique>
+    <xs:key name="paramName">
+      <xs:selector xpath="params/param"/>
+      <xs:field xpath="@name"/>
+    </xs:key>
+  </xs:element>
+
+
+  <xs:element name="parallel" substitutionGroup="transitionalState">
+    <xs:annotation>
+      <xs:documentation>
+        parallel state
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="transitionalStateType">
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+    <xs:unique name="parallelStateNames">
+      <xs:selector xpath="mtns:state|mtns:parallel|mtns:final"/>
+      <xs:field xpath="@name"/>
+    </xs:unique>
+
+  </xs:element>
+
+  <!-- final state-->
+
+  <xs:element name="final" substitutionGroup="enterableState">
+    <xs:annotation>
+      <xs:documentation>
+        final state
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="enterableStateType">
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <!--entry state-->
+
+  <xs:element name="entry" substitutionGroup="transitionalTarget">
+    <xs:annotation>
+      <xs:documentation>
+        entry state
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="params" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="transition" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="onEntry"/>
+          <xs:element ref="onExit"/>
+          <xs:group ref="actionsGroup"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!--exit state-->
+
+  <xs:element name="exit" substitutionGroup="transitionalTarget">
+    <xs:annotation>
+      <xs:documentation>
+        exit state
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="transitionalTargetType">
+          <xs:sequence>
+            <xs:group ref="actionsGroup" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+
+  <xs:element name="params">
+    <xs:annotation>
+      <xs:documentation>
+        parameters
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="param" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="param" >
+    <xs:annotation>
+      <xs:documentation>
+        parameter
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="exprParentType">
+          <xs:attribute name="type" use="required" />
+          <xs:attribute name="name" use="required"  />
+          <xs:attribute name="value" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+
+  <xs:element name="cond"  type="exprParentType">
+    <xs:annotation>
+      <xs:documentation>
+        bool value expression
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- executable -->
+
+  <xs:element name="transition">
+    <xs:annotation>
+      <xs:documentation>
+        state transition
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cond" minOccurs="0"/>
+        <xs:group ref="actionsGroup" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="event">
+        <xs:annotation>
+          <xs:documentation>
+            match event
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="target" type="state_id_type">
+        <xs:annotation>
+          <xs:documentation>
+            transition next state
+          </xs:documentation>
+        </xs:annotation>
+
+      </xs:attribute>
+
+    </xs:complexType>
+
+  </xs:element>
+
+
+  <xs:element name="onEntry">
+    <xs:annotation>
+      <xs:documentation>
+        state entry event
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="actionsGroup" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="onExit">
+    <xs:annotation>
+      <xs:documentation>
+        state exit event
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="actionsGroup" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="onUpdate">
+    <xs:annotation>
+      <xs:documentation>
+        state update event
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="actionsGroup" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+
+  <!-- action -->
+
+  <xs:element name="action" abstract="true"/>
+
+  <xs:complexType name="actionType" >
+  </xs:complexType>
+
+  <xs:complexType name="actionsContainerType">
+    <xs:sequence>
+      <xs:group ref="actionsGroup" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:group name="actionsGroup">
+    <xs:choice>
+      <xs:element ref="action"/>
+      <xs:any namespace="##other"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:element name="expr"  type="exprsContainerType"  substitutionGroup="action">
+    <xs:annotation>
+      <xs:documentation>
+        ExpressionAction, execute expression
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="log" substitutionGroup="action">
+    <xs:annotation>
+      <xs:documentation>
+        LogAction, log message
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="exprsContainerType">
+          <xs:annotation>
+            <xs:documentation>
+              arguments expression
+            </xs:documentation>
+          </xs:annotation>
+          <xs:attribute name="type" >
+            <xs:annotation>
+              <xs:documentation>
+                log type
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="msg" >
+            <xs:annotation>
+              <xs:documentation>
+                log message
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="format" >
+            <xs:annotation>
+              <xs:documentation>
+                message format
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="raise" substitutionGroup="action">
+    <xs:annotation>
+      <xs:documentation>
+        RaiseAction, raise event
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="actionType">
+          <xs:sequence>
+            <xs:element name="data"  minOccurs="0" maxOccurs="1">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:group ref="exprGroup" minOccurs="0" maxOccurs="1" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="event" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="cancel"  substitutionGroup="action">
+    <xs:annotation>
+      <xs:documentation>
+        CancelAction, cancel event
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="actionType">
+          <xs:attribute name="event" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="if"  substitutionGroup="action">
+    <xs:annotation>
+      <xs:documentation>
+        IfAction
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="actionType">
+          <xs:sequence>
+            <xs:element ref="cond" />
+            <xs:element name="then" type="actionsContainerType" />
+            <xs:element name="elseIf" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="cond" />
+                  <xs:element name="then" type="actionsContainerType" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="else" type="actionsContainerType" minOccurs="0" maxOccurs="1">
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="foreach" substitutionGroup="action">
+    <xs:annotation>
+      <xs:documentation>
+        ForeachAction
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="actionType">
+          <xs:sequence>
+            <xs:element name="items" type="exprParentType">
+              <xs:annotation>
+                <xs:documentation>
+                  items expression
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:group ref="actionsGroup" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:attribute name="item"/>
+          <xs:attribute name="index"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="assign"  substitutionGroup="action">
+    <xs:annotation>
+      <xs:documentation>
+        AssignAction
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="actionType">
+          <xs:group ref="exprGroup" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>
+                parameter value
+              </xs:documentation>
+            </xs:annotation>
+          </xs:group>
+          <xs:attribute name="name"  use="required">
+            <xs:annotation>
+              <xs:documentation>
+                parameter name
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="value">
+            <xs:annotation>
+              <xs:documentation>
+                parameter value
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+
+  </xs:element>
+
+  <!--expression-->
+
+  <xs:group name="exprGroup">
+    <xs:sequence>
+      <xs:any namespace="urn:schema-lwj:expression" />
+    </xs:sequence>
+  </xs:group>
+  <xs:complexType name="exprParentType">
+    <xs:annotation>
+      <xs:documentation>
+        A subexpression
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="exprGroup" minOccurs="0" maxOccurs="1" />
+  </xs:complexType>
+
+  <xs:complexType name="exprsContainerType">
+    <xs:annotation>
+      <xs:documentation>
+        Multiple sub-expressions
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="exprGroup" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:complexType>
+
+</xs:schema>
