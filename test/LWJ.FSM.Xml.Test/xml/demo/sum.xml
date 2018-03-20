@@ -35,10 +35,10 @@
     </params>
     <transition target="init" >
       <cond>
-        <x:lessThanOrEqual>
+        <x:leq>
           <x:var>tmp</x:var>
           <x:int32>1</x:int32>
-        </x:lessThanOrEqual>
+        </x:leq>
       </cond>
     </transition>
     <transition target="decrement" />

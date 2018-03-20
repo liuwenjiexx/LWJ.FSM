@@ -128,8 +128,9 @@ namespace LWJ.FSM.Xml.Test
         {
             FSMachine fsm = new FSMachine();
             fsm.LoadXml(TestUtils.LoadText("xml.transition_event.xml"));
-            fsm.SendEvent("to.s2");
             fsm.Start();
+            fsm.SendEvent("to.s2");
+            fsm.Update();
             Assert.IsNotNull(fsm.Current);
             Assert.AreEqual("s2", fsm.Current.Name);
         }

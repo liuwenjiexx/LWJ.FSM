@@ -12,24 +12,24 @@
     <transition target="s2" event="to.s2"/>
   </state>
   <state name="s2">
-    <transition target="s1" />
+    <!--<transition target="s1" />-->
     <onEntry>
       <if>
         <cond>
-          <x:equal>
+          <x:eq>
             <x:var>n</x:var>
             <x:int32>1</x:int32>
-          </x:equal>
+          </x:eq>
         </cond>
         <then>
-          <log msg="1"/>
+          <log msg="s2:1"/>
         </then>
         <elseIf>
           <cond>
-            <x:equal>
+            <x:eq>
               <x:var>n</x:var>
               <x:int32>2</x:int32>
-            </x:equal>
+            </x:eq>
           </cond>
           <then>
             <if>
@@ -37,24 +37,24 @@
                 <x:true/>
               </cond>
               <then>
-                <log msg="2"/>
+                <log msg="s2:2"/>
               </then>
             </if>
           </then>
         </elseIf>
         <elseIf>
           <cond>
-            <x:equal>
+            <x:eq>
               <x:var>n</x:var>
               <x:int32>3</x:int32>
-            </x:equal>
+            </x:eq>
           </cond>
           <then>
-            <log msg="3"/>
+            <log msg="s2:3"/>
           </then>
         </elseIf>
         <else>
-          <log msg="0"/>
+          <log msg="s2:0"/>
         </else>
       </if>
     </onEntry>

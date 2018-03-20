@@ -12,12 +12,12 @@
   <state name="s1">
     <transition target="s2">
       <cond>
-        <x:greaterThanOrEqual>
+        <x:geq>
           <x:postDecrement>
             <x:var>n</x:var>
           </x:postDecrement>
           <x:int32>0</x:int32>
-        </x:greaterThanOrEqual>      
+        </x:geq>      
     </cond>
       <log msg="s1.transition"/>
     </transition>
