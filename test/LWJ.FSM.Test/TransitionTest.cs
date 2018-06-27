@@ -10,6 +10,13 @@ namespace LWJ.FSM.Test
     [TestClass]
     public class TransitionTest
     {
+        public static FSMachine GetFSM()
+        {
+            FSMContext context = new FSMContext();
+            context.ExpressionProvider = new FSMExpressionProvider();
+            FSMachine fsm = new FSMachine(context);
+            return fsm;
+        }
 
 
         [TestMethod]
@@ -164,7 +171,7 @@ namespace LWJ.FSM.Test
             State s2 = new State("s2");
             root.AddChild(s2);
 
-            FSMachine fsm = new FSMachine();
+            FSMachine fsm = GetFSM();
             fsm.SetRoot(root);
 
             fsm.Start();

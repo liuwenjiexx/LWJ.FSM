@@ -5,10 +5,11 @@ namespace LWJ.FSM.Xml.Test
 { 
     public partial class TimeWatchTest
     {
+        
         [TestMethod]
         public void Sum()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.demo.sum.xml"));
        
             fsm.Logger = new ConsoleLog();

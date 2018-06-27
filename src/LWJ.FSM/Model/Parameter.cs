@@ -1,5 +1,4 @@
-﻿using LWJ.Expressions;
-using System;
+﻿using System;
 
 namespace LWJ.FSM.Model
 {
@@ -14,7 +13,7 @@ namespace LWJ.FSM.Model
 
         public object DefaultValue { get; set; }
 
-        public Expressions.Expression DefaultValueExpr { get; set; }
+        public object DefaultValueExpr { get; set; }
 
         public Parameter(Type type, string name)
             : this(type, name, null, null)
@@ -22,7 +21,7 @@ namespace LWJ.FSM.Model
 
         }
 
-        public Parameter(Type type, string name, object defaultValue, Expression defaultValueExpr)
+        public Parameter(Type type, string name, object defaultValue, object defaultValueExpr)
         {
             this.Type = type;
             this.Name = name;

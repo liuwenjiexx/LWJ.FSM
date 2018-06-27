@@ -1,5 +1,4 @@
-﻿using LWJ.Expressions;
-
+﻿
 namespace LWJ.FSM.Model
 {
     /// <summary>
@@ -7,12 +6,12 @@ namespace LWJ.FSM.Model
     /// </summary>
     public class ExpressionAction : Action
     {
-        private Expression expr;
+        private object expr;
 
         /// <summary>
         /// <see cref="Expressions.Expression"/>
         /// </summary>
-        public Expression Expr { get => expr; set => expr = value; }
+        public object Expr { get => expr; set => expr = value; }
 
         public override void Execute(FSMExecutionContext ctx)
         {

@@ -6,13 +6,17 @@ using System.Text;
 namespace LWJ.FSM.Xml.Test
 {
     [TestClass]
-    public class ParallelTest 
+    public class ParallelTest
     {
+        public static FSMachine GetFSM()
+        {
+            return BaseTest.GetFSM();
+        }
 
         [TestMethod]
         public void Parallel()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.parallel.xml"));
             fsm.Logger = new LogMessageTrace();
             fsm.Start();

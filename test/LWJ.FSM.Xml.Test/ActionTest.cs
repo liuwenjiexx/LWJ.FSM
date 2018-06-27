@@ -31,9 +31,9 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Log()
         {
-          
 
-            FSMachine fsm = new FSMachine();
+
+            FSMachine fsm = GetExprFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.actions.log.xml"));
             StringTraceLog log = new StringTraceLog();
             fsm.Logger = log;
@@ -57,7 +57,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Raise_Data()
         {
-            FSMachine fsm = new FSMachine();
+            FSMachine fsm = GetExprFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.actions.raise_data.xml"));
             fsm.Logger = new LogMessageTrace();
             fsm.Start();
@@ -78,7 +78,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void If()
         {
-            FSMachine fsm = new FSMachine();
+            FSMachine fsm = GetExprFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.actions.if.xml"));
             fsm.Logger = new LogMessageTrace();
             fsm.SendEvent("to.s2");
@@ -111,7 +111,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Foreach()
         {
-            FSMachine fsm = new FSMachine();
+            FSMachine fsm = GetExprFSM();
             fsm.Logger = new LogMessageTrace();
 
             int[] intArray = new int[] { 1, 2, 3 };
@@ -123,7 +123,7 @@ namespace LWJ.FSM.Xml.Test
 
             Assert.AreEqual("index:0, value:1_index:1, value:2_index:2, value:3", fsm.Logger.ToString());
 
-            fsm = new FSMachine();
+            fsm =   GetExprFSM();
             fsm.Logger = new LogMessageTrace();
 
             List<int> listArray = new List<int>(new int[] { 1, 2, 3 });
@@ -139,11 +139,14 @@ namespace LWJ.FSM.Xml.Test
             //bb = aa;
         }
 
-
+        public static FSMachine GetExprFSM()
+        {
+            return BaseTest.GetFSM();
+        }
         [TestMethod]
         public void Assign()
         {
-            FSMachine fsm = new FSMachine();
+            FSMachine fsm = GetExprFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.actions.assign.xml"));
             fsm.Start();
             Assert.AreEqual(1, fsm["int32ByValue"]);

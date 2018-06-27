@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using LWJ.Expressions;
 using System.Collections.ObjectModel;
 
 namespace LWJ.FSM.Model
@@ -10,7 +9,7 @@ namespace LWJ.FSM.Model
     public class IfAcion : ActionsContainer
     {
 
-        private Expression cond;
+        private object cond;
 
         private List<IfAcion> elseIfs = new List<IfAcion>();
 
@@ -19,7 +18,7 @@ namespace LWJ.FSM.Model
         /// <summary>
         /// if test value
         /// </summary>
-        public Expression Cond { get => cond; set => cond = value; }
+        public object Cond { get => cond; set => cond = value; }
 
         /// <summary>
         /// elseIf action

@@ -9,7 +9,8 @@ namespace LWJ.FSM
     {
         private Dictionary<string, ParamData> paramerts;
         private FSMContext parent;
-        private FSMContextAdapter adapter;
+
+        private IFSMExpressionProvider exprProvider;
 
         public FSMContext()
             : this(null)
@@ -25,14 +26,12 @@ namespace LWJ.FSM
 
         public object this[string name] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public FSMContextAdapter Adapter
+
+
+        public IFSMExpressionProvider ExpressionProvider
         {
-            get
-            {
-                if (adapter == null)
-                    adapter = new FSMContextAdapter(this);
-                return adapter;
-            }
+            get => exprProvider == null && parent != null ? parent.ExpressionProvider : exprProvider;
+            set => exprProvider = value;
         }
 
 
@@ -70,7 +69,7 @@ namespace LWJ.FSM
             return GetParamData(name).type;
         }
 
-        internal IEnumerable<string> EnumerateParameters()
+        public IEnumerable<string> EnumerateParameters()
         {
             var current = this;
             Dictionary<string, ParamData> ps;
@@ -85,6 +84,7 @@ namespace LWJ.FSM
                 current = current.parent;
             }
         }
+
 
         internal ParamData GetParamData(string name)
         {

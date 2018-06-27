@@ -11,7 +11,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Initial()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.initial.xml"));
 
             Assert.IsNull(fsm.Current);
@@ -25,7 +25,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Entry()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.entry.xml"));
 
             Assert.IsNull(fsm.Current);
@@ -39,7 +39,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Entry_Trace()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.entry_trace.xml"));
             fsm.Logger = new LogMessageTrace();
             fsm.Start();
@@ -58,7 +58,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Entry_Reset()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.entry_reset.xml"));
             fsm.Start();
             fsm["n"] = 1;
@@ -72,7 +72,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Params()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.params.xml"));
             fsm.Start();
 
@@ -116,7 +116,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Transition_Target()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.transition_target.xml"));
             fsm.Start();
 
@@ -126,7 +126,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Transition_Event()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.transition_event.xml"));
             fsm.SendEvent("to.s2");
             fsm.Start();
@@ -136,17 +136,26 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Transition_Event_Back()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.transition_event_back.xml"));
             fsm.SendEvent("to.s2");
             fsm.Start();
             Assert.IsNotNull(fsm.Current);
             Assert.AreEqual("s1", fsm.Current.Name);
         }
+
+        public static FSMachine GetFSM()
+        {
+            FSMContext context = new FSMContext();
+            context.ExpressionProvider = new FSMExpressionProvider();
+            FSMachine fsm = new FSMachine(context);
+            return fsm;
+        }
         [TestMethod]
         public void Transition_Cond()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
+
             fsm.LoadXml(TestUtils.LoadText("xml.transition_cond.xml"));
             fsm.Start();
             Assert.AreEqual("s1", fsm.Current.Name);
@@ -159,7 +168,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Transition_Event_Cond()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.transition_event_cond.xml"));
             fsm.Start();
             Assert.AreEqual("s1", fsm.Current.Name);
@@ -176,7 +185,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Transition_Trace()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.transition_trace.xml"));
             StringBuilder sb = new StringBuilder();
             fsm.Logger = new LogMessageTrace();
@@ -199,7 +208,7 @@ namespace LWJ.FSM.Xml.Test
         [TestMethod]
         public void Transition_Trace2()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.transition_trace2.xml"));
             fsm.Logger = new LogMessageTrace();
 

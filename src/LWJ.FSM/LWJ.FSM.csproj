@@ -33,11 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LWJ.Expressions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\LWJ.Expressions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,8 +46,8 @@
     <Compile Include="Exceptions\FSMStateException.cs" />
     <Compile Include="Exceptions\FSMParameterException.cs" />
     <Compile Include="FSMContext.cs" />
-    <Compile Include="FSMContextAdapter.cs" />
     <Compile Include="IFSMContext.cs" />
+    <Compile Include="IFSMExpressionProvider.cs" />
     <Compile Include="IFSMLogger.cs" />
     <Compile Include="FSMExecutionContext.cs" />
     <Compile Include="Extensions\InternalExtensions.cs" />

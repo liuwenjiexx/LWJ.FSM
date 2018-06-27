@@ -1,5 +1,4 @@
-﻿using LWJ.Expressions;
-using LWJ.FSM.Model;
+﻿using LWJ.FSM.Model;
 using System;
 using System.Collections.Generic;
 
@@ -9,10 +8,8 @@ namespace LWJ.FSM
     {
 
         //private FSMExecutionContext parent;
-        private Dictionary<Expression, InvocationDelegate> cachedExprs;
 
-        private FSMContext context;
-        private CompileContext compileContext;
+        private FSMContext context; 
 
         private FSMachine machine;
         private TransitionalTarget state;
@@ -37,24 +34,7 @@ namespace LWJ.FSM
 
 
 
-        private InvocationDelegate GetOrCacheExprEval(Expression expr)
-        {
-            InvocationDelegate eval;
-            if (cachedExprs == null)
-            {
-                cachedExprs = new Dictionary<Expression, InvocationDelegate>();
-
-                compileContext = new CompileContext(Context.Adapter);
-            }
-            if (!cachedExprs.TryGetValue(expr, out eval))
-            {
-                eval = compileContext.Compile(expr);
-                cachedExprs[expr] = eval;
-            }
-            return eval;
-        }
-
-        public bool EvalExpressionBool(Expression boolExpr)
+        public bool EvalExpressionBool(object boolExpr)
         {
             object result = EvalExpression(boolExpr);
             if (result == null)
@@ -64,11 +44,10 @@ namespace LWJ.FSM
             return false;
         }
 
-        public virtual object EvalExpression(Expression expr)
+        public virtual object EvalExpression(object expr)
         {
-            var eval = GetOrCacheExprEval(expr);
-            object result = eval(Context.Adapter);
-            return result;
+            
+            return context.ExpressionProvider.EvalExpression(context, expr);
         }
 
 

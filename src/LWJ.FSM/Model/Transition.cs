@@ -1,5 +1,4 @@
-﻿using LWJ.Expressions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace LWJ.FSM.Model
@@ -9,7 +8,7 @@ namespace LWJ.FSM.Model
 
         private string target;
         private string eventName;
-        private Expression cond;
+        private object cond;
         private TransitionType transitionType;
         private TransitionalState parent;
         private List<Action> actions = new List<Action>();
@@ -28,7 +27,7 @@ namespace LWJ.FSM.Model
             this.target = target;
             this.eventName = eventName;
         }
-        public Transition(string target, string eventName, Expression cond)
+        public Transition(string target, string eventName, object cond)
         {
             this.target = target;
             this.eventName = eventName;
@@ -38,7 +37,7 @@ namespace LWJ.FSM.Model
         public string Target { get => target; set => target = value; }
         public string Event { get => eventName; set => eventName = value; }
 
-        public Expression Cond { get => cond; set => cond = value; }
+        public object Cond { get => cond; set => cond = value; }
 
         public TransitionType TransitionType { get => transitionType; set => transitionType = value; }
 

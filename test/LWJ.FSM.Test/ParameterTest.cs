@@ -7,6 +7,16 @@ namespace LWJ.FSM.Test
     [TestClass]
     public class ParameterTest
     {
+
+        public static FSMachine GetFSM()
+        {
+            FSMContext context = new FSMContext();
+            context.ExpressionProvider = new FSMExpressionProvider();
+            FSMachine fsm = new FSMachine(context);
+            return fsm;
+        }
+
+
         [TestMethod]
         public void Parameter()
         {
@@ -44,6 +54,7 @@ namespace LWJ.FSM.Test
             root.AddParamerter<int>("b");
             root.AddParamerter<int>("result");
 
+            //FSMachine fsm = GetFSM();
             FSMachine fsm = new FSMachine();
             fsm.SetRoot(root);
             fsm.Start();
@@ -68,7 +79,7 @@ namespace LWJ.FSM.Test
             root.AddChild(s1);
             root.AddParamerter<int>("result");
 
-            FSMachine fsm = new FSMachine();
+            FSMachine fsm = GetFSM();
             fsm.SetRoot(root);
             //Assert.IsFalse(fsm.Root.ContainsParameter("a"));
             fsm.Start();

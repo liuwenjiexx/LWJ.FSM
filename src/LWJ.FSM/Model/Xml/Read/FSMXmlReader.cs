@@ -1,5 +1,4 @@
-﻿using LWJ.Expressions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Linq;
@@ -8,14 +7,13 @@ namespace LWJ.FSM.Model.Xml
 {
     public class FSMXmlReader
     {
-        private LWJ.Expressions.Xml.XmlExpressionReader exprReader;
+
         private Dictionary<string, Dictionary<string, Func<FSMXmlReader, Action>>> actionReaders;
         private Dictionary<Type, Func<FSMXmlReader, Action>> actionTypeReaders;
         private XmlNamespaceManager nsmgr;
         private static Dictionary<string, Func<FSMXmlReader, Action>> cachedActionReaders;
         private static Dictionary<Type, Func<FSMXmlReader, Action>> cachedActionTypeReaders;
-        private static Dictionary<string, string> cachedTypeNames;
-        private static LWJ.Expressions.Xml.XmlExpressionReader defaultExprReader;
+        private static Dictionary<string, string> cachedTypeNames; 
         private static readonly object lockObj = new object();
         private readonly object lockThisObj = new object();
         public const string RootNodeName = "fsm";
@@ -31,9 +29,9 @@ namespace LWJ.FSM.Model.Xml
 
         }
 
-        public FSMXmlReader(Expressions.Xml.XmlExpressionReader exprReader)
+        public FSMXmlReader(IFSMExpressionProvider exprReader)
         {
-            this.exprReader = exprReader;
+             
             lock (lockObj)
             {
                 InitStaticMember();
@@ -42,17 +40,16 @@ namespace LWJ.FSM.Model.Xml
 
         public XmlNode CurrentNode => nodes.Peek();
 
-        LWJ.Expressions.Xml.XmlExpressionReader GetExprReader()
+        IFSMExpressionProvider GetExprReader()
         {
-            var reader = exprReader;
-            if (reader == null)
-            {
-                if (defaultExprReader == null)
-                    defaultExprReader = new Expressions.Xml.XmlExpressionReader();
+            var reader = context.ExpressionProvider;
+            //if (reader == null)
+            //{
+            //    if (defaultExprReader == null)
+            //        defaultExprReader = new Expressions.Xml.XmlExpressionReader();
 
-                reader = defaultExprReader;
-
-            }
+            //    reader = defaultExprReader; 
+            //}
             return reader;
         }
 
@@ -499,7 +496,7 @@ namespace LWJ.FSM.Model.Xml
 
         #endregion
 
-         
+
 
         public Transition ReadTransition()
         {
@@ -534,12 +531,12 @@ namespace LWJ.FSM.Model.Xml
 
 
 
-        public Expression ReadExpression(bool isBlock = false)
+        public object ReadExpression(bool isBlock = false)
         {
-            CompileContext ctx = new CompileContext(context.Adapter);
-            return GetExprReader().Read(CurrentNode, isBlock, ctx);
+            //  CompileContext ctx = new CompileContext(context.Adapter);
+            return GetExprReader().ReadExpr(context, CurrentNode, isBlock);
         }
-        public Expression ReadFirstChildExpression(bool isBlock = false)
+        public object ReadFirstChildExpression(bool isBlock = false)
         {
             var exprNode = FilterChildNodeType().FirstOrDefault();
             if (exprNode == null)
@@ -550,20 +547,20 @@ namespace LWJ.FSM.Model.Xml
             return expr;
         }
 
-        private Expression ReadFirstChildExpression(Expression defaultValue, bool isBlock = false)
+        private object ReadFirstChildExpression(object defaultValueExpr, bool isBlock = false)
         {
             var exprNode = FilterChildNodeType().FirstOrDefault();
             if (exprNode == null)
-                return defaultValue;
+                return defaultValueExpr;
             return ReadFirstChildExpression(isBlock);
         }
-        public IEnumerable<Expression> ReadChildExpressions()
+        public IEnumerable<object> ReadChildExpressions()
         {
             var exprReader = GetExprReader();
             foreach (XmlNode exprNode in FilterChildNodeType())
             {
-                CompileContext ctx = new CompileContext(context.Adapter);
-                var expr = exprReader.Read(exprNode, false, ctx);
+                // CompileContext ctx = new CompileContext(context.Adapter);
+                var expr = exprReader.ReadExpr(context, exprNode, false);
                 yield return expr;
             }
         }
@@ -591,7 +588,7 @@ namespace LWJ.FSM.Model.Xml
             string name = ReadAttributeValue<string>("name");
             Type type = ReadAttributeValue<Type>("type");
             object defaultValue = ReadAttributeValue("value", type, null);
-            Expression defaultValueExpr = ReadFirstChildExpression(null);
+            object defaultValueExpr = ReadFirstChildExpression(null);
 
             var p = new Parameter(type, name, defaultValue, defaultValueExpr);
             return p;

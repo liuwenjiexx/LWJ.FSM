@@ -1,5 +1,4 @@
 ﻿using System;
-using LWJ.Expressions;
 
 namespace LWJ.FSM.Model
 {
@@ -9,7 +8,7 @@ namespace LWJ.FSM.Model
     /// </summary>
     public class LogAcion : Action
     {
-        private Expression[] exprs;
+        private object[] exprs;
         private string message;
         private string type;
         private string format;
@@ -30,9 +29,10 @@ namespace LWJ.FSM.Model
         public string Message { get => message; set => message = value; }
 
         /// <summary>
+        /// expr
         /// <see cref="Format"/> arguments
         /// </summary>
-        public Expression[] Arguments { get => exprs; set => exprs = value; }
+        public object[] Arguments { get => exprs; set => exprs = value; }
 
         public override void Execute(FSMExecutionContext ctx)
         {

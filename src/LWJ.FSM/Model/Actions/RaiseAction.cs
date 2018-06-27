@@ -22,7 +22,7 @@ namespace LWJ.FSM.Model
         /// <summary>
         /// send event data
         /// </summary>
-        public Expressions.Expression DataExpr { get; set; }
+        public object DataExpr { get; set; }
 
         //public Type DataType { get; set; }
 

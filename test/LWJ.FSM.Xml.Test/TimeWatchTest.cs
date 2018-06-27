@@ -10,10 +10,14 @@ namespace LWJ.FSM.Xml.Test
     [TestClass]
     public partial class TimeWatchTest
     {
+        public static FSMachine GetFSM()
+        {
+            return BaseTest.GetFSM();
+        }
         [TestMethod]
         public void Watch_05S()
         {
-            FSMachine fsm = new FSMachine();
+            var fsm = GetFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.demo.TimeWatch.xml"));
 
             fsm.Logger = new ConsoleLog();

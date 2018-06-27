@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LWJ.Expressions;
 
 namespace LWJ.FSM.Model
 {
@@ -11,7 +10,7 @@ namespace LWJ.FSM.Model
 
         private string name;
         private string value;
-        private Expressions.Expression expr;
+        private object expr;
 
         /// <summary>
         /// variable name
@@ -20,7 +19,7 @@ namespace LWJ.FSM.Model
         /// <summary>
         /// value expression
         /// </summary>
-        public Expression Expr { get => expr; set => expr = value; }
+        public object Expr { get => expr; set => expr = value; }
 
         /// <summary>
         /// value

@@ -1,15 +1,15 @@
 ﻿using LWJ.Expressions;
 using System;
 using System.Collections.Generic;
-namespace LWJ.FSM
+namespace LWJ.FSM.Xml.Test
 {
-    public class FSMContextAdapter : IExpressionContext
+    class FSMExpressionContextAdapter : IExpressionContext
     {
         private FSMContext ctx;
 
         public object this[string name] { get => ctx[name]; set => ctx[name] = value; }
 
-        public FSMContextAdapter(FSMContext ctx)
+        public FSMExpressionContextAdapter(FSMContext ctx)
         {
             this.ctx = ctx;
         }
@@ -31,7 +31,7 @@ namespace LWJ.FSM
 
         public Type GetVariableType(string name)
         {
-            return ctx.GetParamData(name).type;
+            return ctx.GetParameterType(name);
         }
 
         public object GetVariable(string name)

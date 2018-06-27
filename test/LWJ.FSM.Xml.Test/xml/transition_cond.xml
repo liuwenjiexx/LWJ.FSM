@@ -11,7 +11,7 @@
   <state name="s1">
     <transition target="s2" >
       <cond>
-         <x:var>a</x:var>
+         <x:var>a</x:var> 
       </cond>
     </transition>
   </state>

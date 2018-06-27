@@ -1,5 +1,4 @@
-﻿using LWJ.Expressions;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,14 +7,14 @@ namespace LWJ.FSM.Model
     public class ForeachAcion : ActionsContainer
     {
 
-        private Expression items;
+        private object items;
         private string item;
         private string index;
 
         /// <summary>
-        /// array value
+        /// expr, array value
         /// </summary>
-        public Expression Items { get => items; set => items = value; }
+        public object Items { get => items; set => items = value; }
 
 
         /// <summary>
