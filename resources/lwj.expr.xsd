@@ -244,33 +244,33 @@
 
 
   <!--compare expression-->
-
-  <xs:element name="equal" type="binaryExprType" substitutionGroup="expr">
+  
+  <xs:element name="eq" type="binaryExprType" substitutionGroup="expr">
     <xs:annotation>
       <xs:documentation>(a == b)</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="notEqual" type="binaryExprType" substitutionGroup="expr">
+  <xs:element name="neq" type="binaryExprType" substitutionGroup="expr">
     <xs:annotation>
       <xs:documentation>(a != b)</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="lessThan" type="binaryExprType" substitutionGroup="expr">
+  <xs:element name="lt" type="binaryExprType" substitutionGroup="expr">
     <xs:annotation>
       <xs:documentation>(a &lt; b)</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="lessThanOrEqual" type="binaryExprType" substitutionGroup="expr">
+  <xs:element name="leq" type="binaryExprType" substitutionGroup="expr">
     <xs:annotation>
       <xs:documentation>(a &lt;= b)</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="greaterThan" type="binaryExprType" substitutionGroup="expr">
+  <xs:element name="gt" type="binaryExprType" substitutionGroup="expr">
     <xs:annotation>
       <xs:documentation>(a &gt;= b)</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="greaterThanOrEqual" type="binaryExprType" substitutionGroup="expr">
+  <xs:element name="geq" type="binaryExprType" substitutionGroup="expr">
     <xs:annotation>
       <xs:documentation>(a &gt;= b)</xs:documentation>
     </xs:annotation>
@@ -394,17 +394,15 @@
   <!-- member expression-->
 
   <xs:complexType name="memberType">
-    <xs:choice>
-      <xs:element ref="type"/>
-      <xs:group ref="exprGroup">
-        <xs:annotation>
-          <xs:documentation>
-            instance
-          </xs:documentation>
-        </xs:annotation>
-      </xs:group>
-    </xs:choice>
-    <xs:attribute name="name"/>
+    <xs:group ref="exprGroup">
+      <xs:annotation>
+        <xs:documentation>
+          instance or type
+        </xs:documentation>
+      </xs:annotation>
+    </xs:group>
+    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="type"/>
   </xs:complexType>
 
   <xs:element name="member" type="memberType" substitutionGroup="accessable">
@@ -501,9 +499,12 @@
       <xs:sequence>
         <xs:group ref="exprGroup">
           <xs:annotation>
-            <xs:documentation>
-              body
-            </xs:documentation>
+            <xs:documentation>bool test</xs:documentation>
+          </xs:annotation>
+        </xs:group>
+        <xs:group ref="exprGroup" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>body</xs:documentation>
           </xs:annotation>
         </xs:group>
       </xs:sequence>

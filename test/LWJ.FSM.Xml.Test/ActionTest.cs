@@ -80,32 +80,43 @@ namespace LWJ.FSM.Xml.Test
         {
             FSMachine fsm = GetExprFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.actions.if.xml"));
-            fsm.Logger = new LogMessageTrace();
-            fsm.SendEvent("to.s2");
+            fsm.Logger = new LogMessageTrace();            
             fsm.Start();
-            Assert.AreEqual("s1", fsm.Current.Name);
-            Assert.AreEqual("0", fsm.Logger.ToString());
+            fsm.SendEvent("to.s2");
+            fsm.Update();
+            Assert.AreEqual("s2", fsm.Current.Name);
+            Assert.AreEqual("s2:0", fsm.Logger.ToString());
 
+            fsm = new FSMachine();
+            fsm.LoadXml(TestUtils.LoadText("xml.actions.if.xml"));
             fsm.Logger = new LogMessageTrace();
+            fsm.Start();
             fsm["n"] = 1;
             fsm.SendEvent("to.s2");
             fsm.Update();
-            Assert.AreEqual("s1", fsm.Current.Name);
-            Assert.AreEqual("1", fsm.Logger.ToString());
+            Assert.AreEqual("s2", fsm.Current.Name);
+            Assert.AreEqual("s2:1", fsm.Logger.ToString());
 
+            fsm = new FSMachine();
+            fsm.LoadXml(TestUtils.LoadText("xml.actions.if.xml"));
             fsm.Logger = new LogMessageTrace();
+            fsm.Start();
             fsm["n"] = 2;
             fsm.SendEvent("to.s2");
             fsm.Update();
-            Assert.AreEqual("s1", fsm.Current.Name);
-            Assert.AreEqual("2", fsm.Logger.ToString());
+            Assert.AreEqual("s2", fsm.Current.Name);
+            Assert.AreEqual("s2:2", fsm.Logger.ToString());
 
+            fsm = new FSMachine();
+            fsm.LoadXml(TestUtils.LoadText("xml.actions.if.xml"));
             fsm.Logger = new LogMessageTrace();
+            fsm.Start();
             fsm["n"] = 3;
             fsm.SendEvent("to.s2");
             fsm.Update();
-            Assert.AreEqual("s1", fsm.Current.Name);
-            Assert.AreEqual("3", fsm.Logger.ToString());
+
+            Assert.AreEqual("s2", fsm.Current.Name);
+            Assert.AreEqual("s2:3", fsm.Logger.ToString());
         }
 
         [TestMethod]
