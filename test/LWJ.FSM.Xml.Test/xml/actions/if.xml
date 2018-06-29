@@ -18,7 +18,7 @@
         <cond>
           <x:eq>
             <x:var>n</x:var>
-            <x:int32>1</x:int32>
+            <x:int>1</x:int>
           </x:eq>
         </cond>
         <then>
@@ -28,7 +28,7 @@
           <cond>
             <x:eq>
               <x:var>n</x:var>
-              <x:int32>2</x:int32>
+              <x:int>2</x:int>
             </x:eq>
           </cond>
           <then>
@@ -46,7 +46,7 @@
           <cond>
             <x:eq>
               <x:var>n</x:var>
-              <x:int32>3</x:int32>
+              <x:int>3</x:int>
             </x:eq>
           </cond>
           <then>

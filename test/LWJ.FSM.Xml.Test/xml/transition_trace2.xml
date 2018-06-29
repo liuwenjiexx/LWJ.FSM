@@ -16,7 +16,7 @@
           <x:postDecrement>
             <x:var>n</x:var>
           </x:postDecrement>
-          <x:int32>0</x:int32>
+          <x:int>0</x:int>
         </x:geq>      
     </cond>
       <log msg="s1.transition"/>

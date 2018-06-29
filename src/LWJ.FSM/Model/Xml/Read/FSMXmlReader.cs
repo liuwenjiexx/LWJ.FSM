@@ -13,7 +13,7 @@ namespace LWJ.FSM.Model.Xml
         private XmlNamespaceManager nsmgr;
         private static Dictionary<string, Func<FSMXmlReader, Action>> cachedActionReaders;
         private static Dictionary<Type, Func<FSMXmlReader, Action>> cachedActionTypeReaders;
-        private static Dictionary<string, string> cachedTypeNames; 
+        private static Dictionary<string, string> cachedTypeNames;
         private static readonly object lockObj = new object();
         private readonly object lockThisObj = new object();
         public const string RootNodeName = "fsm";
@@ -31,7 +31,7 @@ namespace LWJ.FSM.Model.Xml
 
         public FSMXmlReader(IFSMExpressionProvider exprReader)
         {
-             
+
             lock (lockObj)
             {
                 InitStaticMember();
@@ -367,8 +367,11 @@ namespace LWJ.FSM.Model.Xml
         private static ExpressionAction ReadExpressionAction(FSMXmlReader reader)
         {
             ExpressionAction action = new ExpressionAction();
-            action.Expr = reader.ReadExpression(true);
 
+            if (reader.CurrentNode.ChildNodes.Count == 0)
+                action.Expr = reader.ReadExpressionByAttribute("expr", false);
+            else
+                action.Expr = reader.ReadExpression(true);
             return action;
         }
 
@@ -503,6 +506,7 @@ namespace LWJ.FSM.Model.Xml
             Transition transition = new Transition();
             transition.Target = ReadAttributeValue<string>("target");
             transition.Event = ReadAttributeValue<string>("event", null);
+            transition.Cond = ReadExpressionByAttribute("cond", false);
 
             var firstNode = FilterChildNodeType().FirstOrDefault();
             if (firstNode != null)
@@ -529,7 +533,13 @@ namespace LWJ.FSM.Model.Xml
         }
 
 
-
+        public object ReadExpressionByAttribute(string attributeName, bool isBlock = false)
+        {
+            string expr = ReadAttributeValue<string>(attributeName, null);
+            if (!string.IsNullOrEmpty(expr))
+                return GetExprReader().ReadExpr(context, expr, isBlock);
+            return null;
+        }
 
         public object ReadExpression(bool isBlock = false)
         {
@@ -551,7 +561,14 @@ namespace LWJ.FSM.Model.Xml
         {
             var exprNode = FilterChildNodeType().FirstOrDefault();
             if (exprNode == null)
+            {
+                if (CurrentNode.ChildNodes.Count == 1 && CurrentNode.FirstChild.NodeType == XmlNodeType.CDATA)
+                {
+
+                    return GetExprReader().ReadExpr(context, CurrentNode.InnerText, isBlock);
+                }
                 return defaultValueExpr;
+            }
             return ReadFirstChildExpression(isBlock);
         }
         public IEnumerable<object> ReadChildExpressions()

@@ -61,8 +61,8 @@ namespace LWJ.FSM.Test
         public object ReadExpr(FSMContext context, string expr, bool isBlock)
         {
             CompileContext ctx = new CompileContext(new FSMExpressionContextAdapter(context));
+            return LWJ.Expressions.Script.ScriptExpressionReader.Instance.Parse(expr, ctx);
 
-            throw new NotImplementedException();
         }
     }
 }

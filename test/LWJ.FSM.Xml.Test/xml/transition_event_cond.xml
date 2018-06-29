@@ -11,7 +11,7 @@
   <state name="s1">
     <transition target="s2" event="to.s2">
       <cond>
-        <x:var>a</x:var>
+        <![CDATA[a]]>
       </cond>
     </transition>
   </state>

@@ -19,7 +19,7 @@
         <x:string>s1.type.expr</x:string>
       </log>
       <log type="format" format="{0}+{1}={2}" msg="ignore">
-        <x:int32>1</x:int32>
+        <x:int>1</x:int>
         <x:string>2</x:string>
         <x:string>3</x:string>
       </log>
