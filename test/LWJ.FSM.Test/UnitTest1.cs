@@ -60,7 +60,26 @@ namespace LWJ.FSM.Test
             Assert.IsTrue(fsm.Root.IsActive);
         }
 
+        [TestMethod]
+        public void SendEvent()
+        {
+            State root = new State();
+            State s1 = new State();
+            s1.AddTransition(new Transition("s2", "s1.to.s2"));
 
+            State s2 = new State();
+            s2.AddTransition(new Transition("s1", "s2.to.s1"));
+
+
+            FSMachine fsm = new FSMachine();
+            fsm.SetRoot(root);
+            Assert.IsFalse(fsm.Root.IsActive);
+            Assert.IsNull(fsm.Current);
+
+            fsm.Start();
+            Assert.IsNull(fsm.Current);
+            Assert.IsTrue(fsm.Root.IsActive);
+        }
     }
 
 }
