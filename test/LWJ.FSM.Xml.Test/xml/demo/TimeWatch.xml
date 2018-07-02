@@ -27,6 +27,7 @@
           <x:var>$time</x:var>
         </x:member>
       </x:addAssign>
+      <![CDATA[time+=$time.DeltaTime]]>
     </expr>
     <log format="time: {0}, deltaTime: {1}">
       <x:var>time</x:var>

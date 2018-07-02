@@ -6,10 +6,14 @@
         urn:schema-lwj:expression ../../../resources/lwj.expr.xsd"
    initial="s1">
   <params>
-    <param type="bool" name="a" value="false"/>
+    <param type="int32" name="a" value="2"/>
   </params>
   <state name="s1">
-    <transition target="s2"  cond="a"/>
+    <transition target="s2"  >
+      <cond>
+       <![CDATA[a<=1]]>
+      </cond>
+    </transition>
   </state>
   <state name="s2"></state>
 </fsm>

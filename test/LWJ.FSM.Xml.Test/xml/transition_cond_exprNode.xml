@@ -9,7 +9,11 @@
     <param type="bool" name="a" value="false"/>
   </params>
   <state name="s1">
-    <transition target="s2"  cond="a"/>
+    <transition target="s2" >
+      <cond>
+         <x:var>a</x:var> 
+      </cond>
+    </transition>
   </state>
   <state name="s2"></state>
 </fsm>

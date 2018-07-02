@@ -164,6 +164,26 @@ namespace LWJ.FSM.Xml.Test
             fsm.Update();
             Assert.IsNotNull(fsm.Current);
             Assert.AreEqual("s2", fsm.Current.Name);
+
+
+            fsm = GetFSM();
+
+            fsm.LoadXml(TestUtils.LoadText("xml.transition_cond_exprNode.xml"));
+            fsm.Start();
+            Assert.AreEqual("s1", fsm.Current.Name);
+            fsm["a"] = true;
+            fsm.Update();
+            Assert.IsNotNull(fsm.Current);
+            Assert.AreEqual("s2", fsm.Current.Name);
+
+            fsm = GetFSM();
+            fsm.LoadXml(TestUtils.LoadText("xml.transition_cond_cdata.xml"));
+            fsm.Start();
+            Assert.AreEqual("s1", fsm.Current.Name);
+            fsm["a"] = 1;
+            fsm.Update();
+            Assert.IsNotNull(fsm.Current);
+            Assert.AreEqual("s2", fsm.Current.Name);
         }
 
         [TestMethod]

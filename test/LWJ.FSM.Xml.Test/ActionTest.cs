@@ -87,7 +87,7 @@ namespace LWJ.FSM.Xml.Test
             Assert.AreEqual("s2", fsm.Current.Name);
             Assert.AreEqual("s2:0", fsm.Logger.ToString());
 
-            fsm = new FSMachine();
+            fsm =   GetExprFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.actions.if.xml"));
             fsm.Logger = new LogMessageTrace();
             fsm.Start();
@@ -97,7 +97,7 @@ namespace LWJ.FSM.Xml.Test
             Assert.AreEqual("s2", fsm.Current.Name);
             Assert.AreEqual("s2:1", fsm.Logger.ToString());
 
-            fsm = new FSMachine();
+            fsm =   GetExprFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.actions.if.xml"));
             fsm.Logger = new LogMessageTrace();
             fsm.Start();
@@ -107,7 +107,7 @@ namespace LWJ.FSM.Xml.Test
             Assert.AreEqual("s2", fsm.Current.Name);
             Assert.AreEqual("s2:2", fsm.Logger.ToString());
 
-            fsm = new FSMachine();
+            fsm = GetExprFSM();
             fsm.LoadXml(TestUtils.LoadText("xml.actions.if.xml"));
             fsm.Logger = new LogMessageTrace();
             fsm.Start();

@@ -10,14 +10,14 @@
     <param type="int64" name="l_0"  />
     <param type="int32" name="i_1" value="1"  />
     <param type="int32" name="i_2"  >
-      <x:int32>2</x:int32>
+      <x:int>2</x:int>
     </param>
 
     <param type="float32" name="f_0"  />
     <param type="float64" name="d_0"  />
     <param type="float32" name="f_01" value="0.1" />
     <param type="float32" name="f_02"  >
-      <x:float32>0.2</x:float32>    
+      <x:float>0.2</x:float>    
   </param>
 
     <param type="bool" name="b_false" />

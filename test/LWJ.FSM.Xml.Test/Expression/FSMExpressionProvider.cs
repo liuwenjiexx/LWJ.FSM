@@ -12,6 +12,7 @@ namespace LWJ.FSM.Xml.Test
     class FSMExpressionProvider : IFSMExpressionProvider
     {
         private XmlExpressionReader exprReader = new Expressions.Xml.XmlExpressionReader();
+
         private Dictionary<Expression, InvocationDelegate> cachedExprs;
 
 
@@ -61,8 +62,7 @@ namespace LWJ.FSM.Xml.Test
         public object ReadExpr(FSMContext context, string expr, bool isBlock)
         {
             CompileContext ctx = new CompileContext(new FSMExpressionContextAdapter(context));
-
-            throw new NotImplementedException();
+            return LWJ.Expressions.Script.ScriptExpressionReader.Instance.Parse(expr, ctx);
         }
     }
 }

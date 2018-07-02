@@ -22,7 +22,7 @@
         </x:assign>
         <x:assign>
           <x:var>counter</x:var>
-          <x:int32>0</x:int32>
+          <x:int>0</x:int>
         </x:assign>
       </expr>
     </transition>
@@ -37,7 +37,7 @@
       <cond>
         <x:leq>
           <x:var>tmp</x:var>
-          <x:int32>1</x:int32>
+          <x:int>1</x:int>
         </x:leq>
       </cond>
     </transition>
@@ -64,11 +64,13 @@
   <state name="decrement">
     <transition target="add" />
     <onEntry>
-      <expr>
+      <expr >
+        <!--expr="tmp=tmp+1"-->
         <x:postDecrement>
           <x:var>tmp</x:var>
         </x:postDecrement>
       </expr>
+      
     </onEntry>
   </state>
 </fsm>
