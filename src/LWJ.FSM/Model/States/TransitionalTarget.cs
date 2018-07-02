@@ -13,7 +13,7 @@ namespace LWJ.FSM.Model
         private List<Action> actions = new List<Action>();
         private List<OnEntry> onEnters = new List<OnEntry>();
         private List<OnExit> onExits = new List<OnExit>();
-
+        private List<IFSMStateListener> listeners = new List<IFSMStateListener>();
 
         public virtual string Name { get; set; }
 
@@ -34,6 +34,8 @@ namespace LWJ.FSM.Model
         public ReadOnlyCollection<OnExit> OnExits
             => onExits.AsReadOnly();
 
+        public ReadOnlyCollection<IFSMStateListener> Listeners
+            => listeners.AsReadOnly();
 
         public void AddParamerter<T>(string name)
             => AddParamerter(typeof(T), name);
@@ -113,7 +115,23 @@ namespace LWJ.FSM.Model
                 onExit.Parent = null;
             }
         }
-         
+
+
+        public void AddListener(IFSMStateListener listener)
+        {
+            if (listener != null && !listeners.Contains(listener))
+            {
+                listeners.Add(listener);
+            }
+        }
+        public void RemoveListener(IFSMStateListener listener)
+        {
+            if (listener != null && listeners.Contains(listener))
+            {
+                listeners.Remove(listener);
+            }
+        }
+
         public override string ToString()
         {
             return "{0}: {1}".FormatArgs(nameof(TransitionalTarget), Name);

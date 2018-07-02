@@ -24,7 +24,7 @@ namespace LWJ.FSM
 
         public FSMContext Parent => parent;
 
-        public object this[string name] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public object this[string name] { get => GetParameter(name); set => SetParameter(name, value); }
 
 
 

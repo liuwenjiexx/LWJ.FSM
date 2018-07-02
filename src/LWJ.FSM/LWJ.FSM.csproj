@@ -55,6 +55,7 @@
     <Compile Include="Exceptions\FSMException.cs" />
     <Compile Include="FSMEvent.cs" />
     <Compile Include="FSMState.cs" />
+    <Compile Include="IFSMStateListener.cs" />
     <Compile Include="Model\Actions\Action.cs" />
     <Compile Include="Model\Actions\ActionsContainer.cs" />
     <Compile Include="Model\Actions\AssignAction.cs" />
@@ -108,4 +109,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) "D:\Projects\FlyTest\Assets\Plugins\FSM\$(TargetFileName)"
+"%25UNITY_HOME%25\Data\MonoBleedingEdge\bin\mono" "%25UNITY_HOME%25\Data\MonoBleedingEdge\lib\mono\4.5\pdb2mdb.exe" $(TargetPath)
+copy $(TargetDir)$(TargetName).dll.mdb "D:\Projects\FlyTest\Assets\Plugins\FSM\$(TargetName).dll.mdb"
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

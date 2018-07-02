@@ -210,6 +210,11 @@ namespace LWJ.FSM
                 }
             }
 
+            foreach (var l in state.Listeners)
+            {
+                l.OnUpdate(this.StateMachine);
+            }
+
             var transitions = this.transitions;
             if (transitions != null)
             {

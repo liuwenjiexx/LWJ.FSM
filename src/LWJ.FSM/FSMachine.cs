@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace LWJ.FSM
 {
-    public class FSMachine
+    public class FSMachine : IFSMContext
     {
 
         private FSMState root;
@@ -18,6 +18,7 @@ namespace LWJ.FSM
         private Dictionary<TransitionalTarget, FSMState> state_fsmstates;
         private FSMTime time;
         private DateTime startTime;
+        private bool isExecuteEvent;
         private readonly static object lockObj = new object();
 
         public const string EventVarName = "$e";
@@ -72,6 +73,10 @@ namespace LWJ.FSM
         /// </summary> 
         public FSMContext GlobalContext => globalContext;
 
+        /// <summary>
+        /// global context
+        /// </summary> 
+        public FSMContext Context => globalContext;
 
 
         public bool IsStarted => isStarted;
@@ -189,6 +194,8 @@ namespace LWJ.FSM
             {
                 events.AddLast(e);
             }
+            //if (logger != null && !string.IsNullOrEmpty(e.EventName))
+            //    Log("", "SendEvent: [{0}], data: [{1}]", e.EventName, e.Data);
 
         }
 
@@ -244,11 +251,20 @@ namespace LWJ.FSM
             UpdateEvent();
 
         }
+        public void FlushEvent()
+        {
+            UpdateEvent();
+        }
+
 
         private void UpdateEvent()
         {
+            if (isExecuteEvent)
+                return;
+
             LinkedListNode<FSMEvent> current;
             FSMEvent evt;
+            isExecuteEvent = true;
             while (true)
             {
                 lock (lockObj)
@@ -263,12 +279,19 @@ namespace LWJ.FSM
                 Root.OnEvent();
                 SetEvent(null);
             }
+            isExecuteEvent = false;
         }
 
         internal void OnTransition(TransitionEventArgs e)
         {
 
             var evt = StateTransition;
+
+            foreach (var l in e.FromState.State.Listeners)
+            {
+                l.OnTransition(this, e);
+            }
+
             if (evt != null)
             {
                 evt(this, e);
@@ -278,18 +301,30 @@ namespace LWJ.FSM
         internal void OnEntry(FSMState entryState, string @event)
         {
             var evt = StateEntry;
+
+            EntryEventArgs e = new EntryEventArgs(entryState.State, @event);
+            foreach (var l in entryState.State.Listeners)
+            {
+                l.OnEntry(this, e);
+            }
+
             if (evt != null)
             {
-                EntryEventArgs e = new EntryEventArgs(entryState.State, @event);
                 evt(this, e);
             }
+            if (logger != null)
+                Log("", "OnEntry State:{0}, event: {1}", entryState.Name, @event);
         }
         internal void OnExit(FSMState exitState, string @event)
         {
             var evt = StateExit;
+            ExitEventArgs e = new ExitEventArgs(exitState.State, @event);
+            foreach (var l in exitState.State.Listeners)
+            {
+                l.OnExit(this, e);
+            }
             if (evt != null)
             {
-                ExitEventArgs e = new ExitEventArgs(exitState.State, @event);
                 evt(this, e);
             }
         }
@@ -334,6 +369,24 @@ namespace LWJ.FSM
                 logger.Log(type, messageFormat, args);
         }
 
+        public bool ContainsParameter(string name)
+        {
+            return Context.ContainsParameter(name);
+        }
+
+        public void SetParameter(string name, object value)
+        {
+            Context.SetParameter(name, value);
+        }
+
+        public object GetParameter(string name)
+        {
+            return Context.GetParameter(name);
+        }
+        public void AddParameter(Type type, string name)
+        {
+            Context.AddParameter(type, name);
+        }
     }
 
 
