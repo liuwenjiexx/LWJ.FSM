@@ -1,12 +1,12 @@
-# LWJ.FSM
+ï»¿# LWJ.FSM
 Xml FSM (Finite State Machine)
 
 
 
-### 1. »ù´¡
+### 1. åŸºç¡€
 ---
 * initial
- Ö¸¶¨³õÊ¼»¯×´Ì¬
+ æŒ‡å®šåˆå§‹åŒ–çŠ¶æ€
  ```
 <fsm xmlns="urn:schema-lwj:fsm" 
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -26,10 +26,10 @@ Xml FSM (Finite State Machine)
  ```
 
 * transition
- ×ª»»µ½ÁíÒ»¸ö×´Ì¬
+ è½¬æ¢åˆ°å¦ä¸€ä¸ªçŠ¶æ€
  
  ```
- ·¢ËÍ to.s2 ÊÂ¼ş½«×ª»»µ½s2×´Ì¬
+ å‘é€ to.s2 äº‹ä»¶å°†è½¬æ¢åˆ°s2çŠ¶æ€
 <fsm initial="s1">
   <state name="s1">
     <transition target="s2" event="to.s2"/>    
@@ -39,7 +39,7 @@ Xml FSM (Finite State Machine)
  ```
 
 * param
- ¶¨Òå±äÁ¿
+ å®šä¹‰å˜é‡
  ```
  <state>
   <params>
@@ -50,10 +50,10 @@ Xml FSM (Finite State Machine)
  ```
  
 
-### 2. ÊÂ¼ş Events
+### 2. äº‹ä»¶ Events
 ---
 * onEntry
- ½øÈë×´Ì¬
+ è¿›å…¥çŠ¶æ€
 ```
 <state>
    <onEntry>
@@ -62,7 +62,7 @@ Xml FSM (Finite State Machine)
 </state>
 ```
 * onExit
- Àë¿ª×´Ì¬
+ ç¦»å¼€çŠ¶æ€
 ```
 <state>
    <onExit>
@@ -71,11 +71,11 @@ Xml FSM (Finite State Machine)
 </state>
 ```
 
-### 3. ¶¯×÷ Actions
+### 3. åŠ¨ä½œ Actions
 ---
 
  * log
-  Êä³öÈÕÖ¾
+  è¾“å‡ºæ—¥å¿—
  ```
 <onEntry>
       <log msg="log message"/>
@@ -83,7 +83,7 @@ Xml FSM (Finite State Machine)
  ```
 * assign
 
- ÉèÖÃ±äÁ¿Öµ
+ è®¾ç½®å˜é‡å€¼
  ```
 <assign name="" value=""/>
 <assign name="" >xml expression</assign>
